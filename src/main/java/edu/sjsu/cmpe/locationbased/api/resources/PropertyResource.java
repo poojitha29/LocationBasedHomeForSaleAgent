@@ -94,7 +94,7 @@ public class PropertyResource {
 	@Path("{id}")
     @Timed(name = "update-property")
     public Response updatePropertyByIsbn(@PathParam("id") LongParam id,@QueryParam("address") String address) {
-    	 if(propertyRepository.updatePropertyByID(id.get(), address)){
+    	 if(propertyRepository.updatePropertyByID(id.get(), address)==true){
     		String location = "/property/"+id;
         	LinksDto propertyResponse = new LinksDto();
         	Property property = propertyRepository.getPropertyByID(id.get());
