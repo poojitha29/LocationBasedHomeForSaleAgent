@@ -7,6 +7,8 @@ import com.yammer.dropwizard.Service;
 import com.yammer.dropwizard.config.Bootstrap;
 import com.yammer.dropwizard.config.Environment;
 
+
+import edu.sjsu.cmpe.locationbased.api.resources.AgentResource;
 //import edu.sjsu.cmpe.locationbased.api.resources.AuthorResource;
 import edu.sjsu.cmpe.locationbased.api.resources.PropertyResource;
 //import edu.sjsu.cmpe.locationbased.api.resources.ReviewResource;
@@ -15,6 +17,9 @@ import edu.sjsu.cmpe.locationbased.config.LocationBasedHomeForSaleAgentConfigura
 import edu.sjsu.cmpe.locationbased.domain.Property;
 import edu.sjsu.cmpe.locationbased.repository.PropertyRepository;
 import edu.sjsu.cmpe.locationbased.repository.PropertyRepositoryInterface;
+import edu.sjsu.cmpe.locationbased.domain.Agent;
+import edu.sjsu.cmpe.locationbased.repository.AgentRepository;
+import edu.sjsu.cmpe.locationbased.repository.AgentRepositoryInterface;
 
 public class LocationBased extends Service<LocationBasedHomeForSaleAgentConfiguration> {
 
@@ -38,6 +43,11 @@ public class LocationBased extends Service<LocationBasedHomeForSaleAgentConfigur
 	environment.addResource(new PropertyResource(propertyRepository));
 	//environment.addResource(new ReviewResource(propertyRepository));
 	//environment.addResource(new AuthorResource(propertyRepository));
+	
+	AgentRepositoryInterface agentRepository = new AgentRepository(
+			new ConcurrentHashMap<Long, Agent>());
+		environment.addResource(new AgentResource(agentRepository));
+	
 	/** Add new resources here */
     }
 }
