@@ -46,19 +46,14 @@ public class PropertyResource {
     @Timed(name = "create-property")
     public Response createProperty(Property request) {
     	Property savedProperty = propertyRepository.saveProperty(request);
-
 	String location = "/property/" + savedProperty.getId();
 	LinksDto propertyResponse = new LinksDto();
 	propertyResponse.addLink(new LinkDto("view-property", location, "GET"));
 	propertyResponse.addLink(new LinkDto("update-property", location, "PUT"));
-
 	return Response.status(201).entity(propertyResponse).build();
     }
-    
-
-
     @PUT
-	@Path("{id}")
+    @Path("{id}")
     @Timed(name = "update-property")
     public Response updatePropertyByIsbn(@PathParam("id") LongParam id,@QueryParam("address") String address) {
     	 if(propertyRepository.updatePropertyByID(id.get(), address)==true){
