@@ -24,15 +24,9 @@ import edu.sjsu.cmpe.locationbased.repository.PropertyRepositoryInterface;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class PropertyResource {
-    /** bookRepository instance */
+   
     private final PropertyRepositoryInterface propertyRepository;
 
-    /**
-     * BookResource constructor
-     * 
-     * @param bookRepository
-     *            a BookRepository instance
-     */
     public PropertyResource(PropertyRepositoryInterface propertyRepository) {
 	this.propertyRepository = propertyRepository;
     }
@@ -45,51 +39,24 @@ public class PropertyResource {
     	PropertyDto propertyResponse = new PropertyDto(property);
     	propertyResponse.addLink(new LinkDto("view-property", "/property/" + property.getId(),"GET"));
     	propertyResponse.addLink(new LinkDto("update-property", "/property/" + property.getId(),	"PUT"));
-    	//propertyResponse.addLink(new LinkDto("delete-book",	"/books/" + book.getIsbn(), "DELETE"));
-    	//propertyResponse.addLink(new LinkDto("create reviews","/books/" + book.getIsbn()+ "/reviews", "POST"));
-	/*if(property.getReviews().size()!=0){
-	propertyResponse.addLink(new LinkDto("view-all-reviews","/books/" + property.getIsbn()+"/reviews", "GET"));
-	}*/
-	// add more links
-
+    
 	return propertyResponse;
     }
     @POST
     @Timed(name = "create-property")
     public Response createProperty(Property request) {
-	// Store the new book in the BookRepository so that we can retrieve it.
     	Property savedProperty = propertyRepository.saveProperty(request);
 
 	String location = "/property/" + savedProperty.getId();
 	LinksDto propertyResponse = new LinksDto();
 	propertyResponse.addLink(new LinkDto("view-property", location, "GET"));
 	propertyResponse.addLink(new LinkDto("update-property", location, "PUT"));
-	//bookResponse.addLink(new LinkDto("delete-book", location, "DELETE"));
-	//bookResponse.addLink(new LinkDto("create-review","/books/"+ savedProperty.getIsbn() + "/reviews", "POST"));
-	
-	// Add other links if needed
 
 	return Response.status(201).entity(propertyResponse).build();
     }
     
 
 
-	/*
-    @DELETE
-	@Path("/{id}")
-    @Timed(name = "delete-book")
-    public Response deletePropertyByIsbn(@PathParam("id") LongParam id) {
-    	if(bookRepository.deleteBookByID(id.get()) == true){
-    	LinksDto bookResponse = new LinksDto();
-    	bookResponse.addLink(new LinkDto("create-book", "/books", "POST"));
-    	return Response.status(200).entity(bookResponse).build();
-    	}
-    	else
-    		return Response.status(409).build();
-    	
-    } 
-    */
-   
     @PUT
 	@Path("{id}")
     @Timed(name = "update-property")
@@ -106,6 +73,12 @@ public class PropertyResource {
     	}
     	else
     		return Response.status(409).build(); 	
+    
+    }
+    
+    
+    
+    
     
     /*
     @PUT
@@ -128,21 +101,20 @@ public class PropertyResource {
      	else
      		return Response.status(409).build();		
      } */
-/**    
-*    @POST
-*	@Path("/{id}/reviews")
-*	@Timed(name = "create-review")
-*	public Response createReviews(@PathParam("id") Long id,@Valid Reviews review) {
-*
-*		Reviews reviewResponse =  BookRepository.createReviews(id, review);
-*		Book book=new Book();
-*		BookDto bookCreateReviewResponse = new BookDto(book);
-*		
-*			bookCreateReviewResponse.addLink(new LinkDto("view-review", "/books/"+id+"/reviews/"+reviewResponse.getId() ,
-*					"GET"));
-*
-*			return Response.status(201).entity(bookCreateReviewResponse).build();
-*		}
-*/		
-}
+		
+	/*
+    @DELETE
+	@Path("/{id}")
+    @Timed(name = "delete-book")
+    public Response deletePropertyByIsbn(@PathParam("id") LongParam id) {
+    	if(bookRepository.deleteBookByID(id.get()) == true){
+    	LinksDto bookResponse = new LinksDto();
+    	bookResponse.addLink(new LinkDto("create-book", "/books", "POST"));
+    	return Response.status(200).entity(bookResponse).build();
+    	}
+    	else
+    		return Response.status(409).build();
+    	
+    } 
+    */
 }
