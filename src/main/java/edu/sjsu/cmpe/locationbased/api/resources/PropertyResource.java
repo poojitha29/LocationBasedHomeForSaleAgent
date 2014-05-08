@@ -39,7 +39,6 @@ public class PropertyResource {
     	PropertyDto propertyResponse = new PropertyDto(property);
     	propertyResponse.addLink(new LinkDto("view-property", "/property/" + property.getId(),"GET"));
     	propertyResponse.addLink(new LinkDto("update-property", "/property/" + property.getId(),	"PUT"));
-    
 	return propertyResponse;
     }
     @POST
@@ -62,13 +61,10 @@ public class PropertyResource {
         	Property property = propertyRepository.getPropertyByID(id.get());
         	propertyResponse.addLink(new LinkDto("view-property", location, "GET"));
         	propertyResponse.addLink(new LinkDto("update-property", location, "PUT"));
-        
-            
         	return Response.status(200).entity(propertyResponse).build();	
     	}
     	else
     		return Response.status(409).build(); 	
-    
     }
     
     
